@@ -61,7 +61,7 @@ describe('Sidebar', () => {
   it('renders settings button', () => {
     render(<Sidebar user={mockUser} />);
     // Settings is an SVG icon in a button - check for the button
-    const settingsButton = document.querySelector('button[class*="text-zinc-500"]');
+    const settingsButton = document.querySelector('button[class*="text-gray-500"]');
     expect(settingsButton).toBeInTheDocument();
   });
 });

@@ -89,20 +89,20 @@ export function SongCard({
 
       {/* Main Card */}
       <div
-        className={`relative transition-all duration-300 overflow-hidden
-                    ${isHovered ? 'shadow-2xl rounded-l-lg' : 'rounded-lg'}`}
+        className={`relative transition-all duration-300 overflow-hidden border-4 border-gray-800 bg-white
+                    ${isHovered ? 'shadow-xl rounded-l-xl' : 'rounded-xl'}`}
         style={{ width: '280px' }}
         onClick={() => onClick?.(song.id)}
       >
         {/* Thumbnail */}
-        <div className="aspect-[16/10] bg-gradient-to-br from-zinc-700 to-zinc-900 relative">
+        <div className="aspect-[16/10] bg-gradient-to-br from-blue-100 to-blue-200 relative">
           {/* Piano roll visualization */}
           <div className="absolute inset-0">
             <div className="h-full flex items-end justify-around px-4 pb-4">
               {[...Array(16)].map((_, i) => (
                 <div
                   key={i}
-                  className="w-2 bg-amber-500/70 rounded-t"
+                  className="w-2 bg-blue-500/70 rounded-t"
                   style={{ height: `${20 + Math.random() * 60}%` }}
                 />
               ))}
@@ -111,9 +111,9 @@ export function SongCard({
 
           {/* Progress bar on thumbnail */}
           {showProgress && song.progressPercent !== null && song.progressPercent > 0 && (
-            <div className="absolute bottom-0 left-0 right-0 h-1 bg-zinc-800/50">
+            <div className="absolute bottom-0 left-0 right-0 h-1.5 bg-gray-300">
               <div
-                className="h-full bg-red-500"
+                className="h-full bg-blue-600"
                 style={{ width: `${song.progressPercent}%` }}
               />
             </div>
@@ -121,29 +121,29 @@ export function SongCard({
         </div>
 
         {/* Title bar */}
-        <div className="p-3 bg-zinc-900">
-          <h3 className="font-semibold text-white text-base truncate">{song.title}</h3>
-          <p className="text-sm text-zinc-400 truncate">{song.artist || 'Unknown'}</p>
+        <div className="p-3 bg-white border-t-4 border-gray-800">
+          <h3 className="font-semibold text-gray-900 text-xl truncate">{song.title}</h3>
+          <p className="text-lg text-gray-500 truncate">{song.artist || 'Unknown'}</p>
         </div>
       </div>
 
       {/* Hover Panel - expands horizontally to the right */}
       {isHovered && (
         <div
-          className="bg-zinc-800 rounded-r-lg shadow-2xl flex flex-col justify-between self-stretch"
+          className="bg-white border-4 border-l-0 border-gray-800 rounded-r-xl shadow-xl flex flex-col justify-between self-stretch"
           style={{ width: '200px' }}
         >
           {/* Top section: Action buttons */}
           <div className="p-4 flex items-center gap-2">
-            <button className="w-10 h-10 bg-white rounded-full flex items-center justify-center text-black hover:bg-zinc-200 transition-colors shadow-lg">
+            <button className="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center text-white hover:bg-blue-600 transition-colors shadow-lg border-2 border-gray-800">
               <PlayIcon />
             </button>
             <button
               onClick={(e) => { e.stopPropagation(); onFavorite?.(song.id); }}
-              className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors
+              className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors border-2 border-gray-800
                 ${song.isFavorite
                   ? 'bg-red-500 text-white'
-                  : 'border-2 border-zinc-500 text-white hover:border-white'}`}
+                  : 'bg-white text-gray-600 hover:bg-red-50'}`}
               aria-label="Toggle favorite"
             >
               <HeartIcon filled={song.isFavorite || false} />
@@ -153,23 +153,23 @@ export function SongCard({
           {/* Middle section: Info */}
           <div className="px-4 flex-1">
             {/* Duration */}
-            <div className="flex items-center gap-2 text-sm text-zinc-300 mb-2">
+            <div className="flex items-center gap-2 text-lg text-gray-700 mb-2">
               <ClockIcon />
               <span>Duration: {formatDuration(song.durationSeconds)}</span>
             </div>
 
             {/* Expected learning time */}
-            <div className="flex items-center gap-2 text-sm text-zinc-300 mb-3">
+            <div className="flex items-center gap-2 text-lg text-gray-700 mb-3">
               <BookIcon />
               <span>~{song.practiceMinutes || 0} min to learn</span>
             </div>
 
             {/* Tag (difficulty) */}
             {song.difficulty && (
-              <span className={`inline-block px-2 py-0.5 rounded text-xs font-semibold capitalize
-                ${song.difficulty === 'beginner' ? 'bg-green-500/20 text-green-400' : ''}
-                ${song.difficulty === 'intermediate' ? 'bg-yellow-500/20 text-yellow-400' : ''}
-                ${song.difficulty === 'advanced' ? 'bg-red-500/20 text-red-400' : ''}`}>
+              <span className={`inline-block px-3 py-1 rounded-lg text-sm font-semibold capitalize border-2
+                ${song.difficulty === 'beginner' ? 'bg-green-100 text-green-700 border-green-500' : ''}
+                ${song.difficulty === 'intermediate' ? 'bg-yellow-100 text-yellow-700 border-yellow-500' : ''}
+                ${song.difficulty === 'advanced' ? 'bg-red-100 text-red-700 border-red-500' : ''}`}>
                 {song.difficulty}
               </span>
             )}
@@ -179,13 +179,13 @@ export function SongCard({
           {song.progressPercent !== null && song.progressPercent > 0 && (
             <div className="p-4 pt-0">
               <div className="flex items-center gap-2">
-                <div className="flex-1 h-1.5 bg-zinc-700 rounded-full overflow-hidden">
+                <div className="flex-1 h-2 bg-gray-200 rounded-full overflow-hidden border border-gray-300">
                   <div
-                    className="h-full bg-green-500 rounded-full"
+                    className="h-full bg-blue-500 rounded-full"
                     style={{ width: `${song.progressPercent}%` }}
                   />
                 </div>
-                <span className="text-xs text-green-400 font-semibold">{song.progressPercent}%</span>
+                <span className="text-sm text-blue-600 font-semibold">{song.progressPercent}%</span>
               </div>
             </div>
           )}

@@ -36,15 +36,15 @@ describe('SongCard', () => {
 
   it('shows progress bar when progress exists', () => {
     render(<SongCard song={mockSong} showProgress={true} />);
-    // Progress bar is a div with bg-red-500 inside another div
-    const progressContainer = document.querySelector('.bg-red-500');
+    // Progress bar is a div with bg-blue-600 inside another div
+    const progressContainer = document.querySelector('.bg-blue-600');
     expect(progressContainer).toBeInTheDocument();
     expect(progressContainer).toHaveStyle({ width: '50%' });
   });
 
   it('hides progress bar when showProgress is false', () => {
     render(<SongCard song={mockSong} showProgress={false} />);
-    const progressContainer = document.querySelector('.bg-red-500');
+    const progressContainer = document.querySelector('.bg-blue-600');
     expect(progressContainer).not.toBeInTheDocument();
   });
 

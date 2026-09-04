@@ -38,7 +38,13 @@ export default function DashboardLayout({
   };
 
   return (
-    <div className="min-h-screen bg-zinc-950">
+    <div
+      className="min-h-screen"
+      style={{
+        fontFamily: "'VT323', 'Courier New', monospace",
+        background: 'linear-gradient(180deg, #e8f4fc 0%, #d0e8f5 100%)',
+      }}
+    >
       <Sidebar
         user={DEMO_USER}
         onUpload={() => setIsUploadOpen(true)}
