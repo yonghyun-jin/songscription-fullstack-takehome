@@ -41,7 +41,11 @@ export default function DashboardLayout({
     <div
       className="min-h-screen"
       style={{
-        background: 'linear-gradient(180deg, #e8f4fc 0%, #d0e8f5 100%)',
+        background: `
+          radial-gradient(circle at 1px 1px, rgba(0,0,0,0.03) 1px, transparent 0),
+          linear-gradient(180deg, #f0f7fb 0%, #e4eff5 100%)
+        `,
+        backgroundSize: '24px 24px, 100% 100%',
       }}
     >
       <Sidebar

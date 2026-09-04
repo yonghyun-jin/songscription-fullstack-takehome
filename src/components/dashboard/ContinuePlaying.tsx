@@ -36,7 +36,7 @@ const PlayIcon = () => (
 
 export function ContinuePlaying({ song, onContinue }: ContinuePlayingProps) {
   return (
-    <div className="bg-white border border-gray-200 rounded-xl p-6 mb-8 shadow-md">
+    <div className="bg-white border border-gray-300 rounded-xl p-6 mb-8">
       <div className="flex items-center gap-2 mb-4">
         <span className="text-blue-600 font-semibold text-sm uppercase tracking-wide">Continue Playing</span>
       </div>
@@ -60,7 +60,7 @@ export function ContinuePlaying({ song, onContinue }: ContinuePlayingProps) {
             <button
               onClick={onContinue}
               className="bg-blue-500 text-white px-5 py-2.5 rounded-lg font-medium
-                         hover:bg-blue-600 transition-colors flex items-center gap-2 shadow-md"
+                         hover:bg-blue-600 transition-colors flex items-center gap-2"
             >
               <PlayIcon />
               Open practice view

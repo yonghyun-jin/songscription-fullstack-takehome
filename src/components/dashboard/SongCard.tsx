@@ -89,8 +89,8 @@ export function SongCard({
 
       {/* Main Card */}
       <div
-        className={`relative transition-all duration-300 overflow-hidden border border-gray-200 bg-white
-                    ${isHovered ? 'shadow-xl rounded-l-xl' : 'rounded-xl shadow-md'}`}
+        className={`relative transition-all duration-300 overflow-hidden border border-gray-300 bg-white
+                    ${isHovered ? 'rounded-l-xl' : 'rounded-xl'}`}
         style={{ width: '280px' }}
         onClick={() => onClick?.(song.id)}
       >
@@ -130,12 +130,12 @@ export function SongCard({
       {/* Hover Panel - expands horizontally to the right */}
       {isHovered && (
         <div
-          className="bg-white border border-l-0 border-gray-200 rounded-r-xl shadow-xl flex flex-col justify-between self-stretch"
+          className="bg-white border border-l-0 border-gray-300 rounded-r-xl flex flex-col justify-between self-stretch"
           style={{ width: '200px' }}
         >
           {/* Top section: Action buttons */}
           <div className="p-4 flex items-center gap-2">
-            <button className="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center text-white hover:bg-blue-600 transition-colors shadow-md">
+            <button className="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center text-white hover:bg-blue-600 transition-colors">
               <PlayIcon />
             </button>
             <button
