@@ -51,7 +51,7 @@ describe('ContinuePlaying', () => {
   it('calls onContinue when button clicked', () => {
     const onContinue = vi.fn();
     render(<ContinuePlaying song={mockSong} onContinue={onContinue} />);
-    fireEvent.click(screen.getByRole('button', { name: /Open practice view/ }));
+    fireEvent.click(screen.getByRole('button', { name: /Continue practicing/ }));
     expect(onContinue).toHaveBeenCalled();
   });
 

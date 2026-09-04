@@ -78,11 +78,11 @@ export function Sidebar({ user, onUpload, songCounts }: SidebarProps) {
       <div className="px-4 mb-4">
         <button
           onClick={onUpload}
-          className="w-full bg-blue-500 border-2 border-gray-800 text-white py-2.5 px-4 rounded-xl text-lg
-                     hover:bg-blue-600 transition-colors flex items-center justify-center gap-2 shadow-md"
+          className="w-full bg-white border-2 border-gray-800 text-gray-800 py-2.5 px-4 rounded-xl text-lg
+                     hover:bg-gray-100 transition-colors flex items-center justify-center gap-2"
         >
           <UploadIcon />
-          Add transcription
+          Upload song
         </button>
       </div>
 

@@ -59,11 +59,11 @@ export function ContinuePlaying({ song, onContinue }: ContinuePlayingProps) {
           <div className="flex items-center gap-4">
             <button
               onClick={onContinue}
-              className="bg-blue-500 text-white px-5 py-2.5 rounded-lg font-medium
-                         hover:bg-blue-600 transition-colors flex items-center gap-2"
+              className="bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold text-lg
+                         hover:bg-blue-700 transition-colors flex items-center gap-2"
             >
               <PlayIcon />
-              Open practice view
+              Continue practicing
             </button>
             <span className="text-gray-400 text-sm">{formatTimeAgo(song.lastPracticedAt)}</span>
           </div>

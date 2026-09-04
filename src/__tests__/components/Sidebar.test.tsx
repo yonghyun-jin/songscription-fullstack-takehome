@@ -36,13 +36,13 @@ describe('Sidebar', () => {
 
   it('renders upload button with correct text', () => {
     render(<Sidebar user={mockUser} />);
-    expect(screen.getByText('Add transcription')).toBeInTheDocument();
+    expect(screen.getByText('Upload song')).toBeInTheDocument();
   });
 
   it('calls onUpload when upload button clicked', () => {
     const onUpload = vi.fn();
     render(<Sidebar user={mockUser} onUpload={onUpload} />);
-    fireEvent.click(screen.getByText('Add transcription'));
+    fireEvent.click(screen.getByText('Upload song'));
     expect(onUpload).toHaveBeenCalled();
   });
 
