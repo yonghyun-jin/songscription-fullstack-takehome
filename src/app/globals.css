@@ -3,19 +3,160 @@
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #0a0a0a;
-}
+  /* Wii Theme Colors */
+  --wii-blue: #00a0dc;
+  --wii-light-blue: #e8f4fc;
+  --wii-white: #ffffff;
+  --wii-gray: #f0f0f0;
+  --wii-text: #333333;
+  --wii-text-light: #666666;
+  --wii-shadow: rgba(0, 0, 0, 0.1);
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  /* Design Tokens */
+  --border-radius-lg: 24px;
+  --border-radius-md: 16px;
+  --border-radius-sm: 8px;
+  --shadow-soft: 0 4px 20px var(--wii-shadow);
+
+  --background: var(--wii-light-blue);
+  --foreground: var(--wii-text);
 }
 
 html,
 body {
   background: var(--background);
   color: var(--foreground);
+  min-height: 100vh;
+}
+
+/* Wii Button Base */
+.wii-button {
+  background: var(--wii-white);
+  border: none;
+  border-radius: var(--border-radius-md);
+  box-shadow: var(--shadow-soft);
+  padding: 16px 32px;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--wii-text);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.wii-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 24px var(--wii-shadow);
+}
+
+.wii-button:active {
+  transform: translateY(0);
+}
+
+.wii-button-primary {
+  background: var(--wii-blue);
+  color: var(--wii-white);
+}
+
+/* Wii Card */
+.wii-card {
+  background: var(--wii-white);
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-soft);
+  padding: 32px;
+}
+
+/* Tag chip */
+.tag-chip {
+  background: var(--wii-white);
+  border: 2px solid transparent;
+  border-radius: var(--border-radius-sm);
+  padding: 12px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px var(--wii-shadow);
+}
+
+.tag-chip:hover {
+  border-color: var(--wii-blue);
+}
+
+.tag-chip.selected {
+  background: var(--wii-blue);
+  color: var(--wii-white);
+  border-color: var(--wii-blue);
+}
+
+/* Experience option */
+.experience-option {
+  background: var(--wii-white);
+  border: 2px solid transparent;
+  border-radius: var(--border-radius-md);
+  padding: 20px 24px;
+  font-size: 18px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 12px var(--wii-shadow);
+  text-align: left;
+  width: 100%;
+}
+
+.experience-option:hover {
+  border-color: var(--wii-blue);
+  transform: translateX(4px);
+}
+
+/* Text input */
+.wii-input {
+  background: var(--wii-white);
+  border: 2px solid var(--wii-gray);
+  border-radius: var(--border-radius-md);
+  padding: 16px 20px;
+  font-size: 18px;
+  width: 100%;
+  transition: all 0.2s ease;
+}
+
+.wii-input:focus {
+  outline: none;
+  border-color: var(--wii-blue);
+  box-shadow: 0 0 0 4px rgba(0, 160, 220, 0.1);
+}
+
+/* Typewriter cursor */
+.typewriter-cursor {
+  display: inline-block;
+  width: 3px;
+  height: 1.2em;
+  background: var(--wii-blue);
+  margin-left: 2px;
+  animation: blink 1s infinite;
+  vertical-align: text-bottom;
+}
+
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+
+/* Fade transitions */
+.fade-enter {
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+.fade-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: all 0.3s ease;
+}
+
+/* Hide scrollbar but allow scrolling */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
 }

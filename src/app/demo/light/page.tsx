@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import { useRouter } from 'next/navigation';
 
 const MUSIC_TAGS = [
   'Baroque', 'Calm', 'Crowd pleaser', 'Impressionist',
@@ -25,21 +24,45 @@ interface Step {
 // Selection cursor - music note with round head
 const NoteCursor = () => (
   <svg width="12" height="18" viewBox="0 0 12 18" fill="#1a1a2e">
+    {/* Stem */}
     <rect x="9" y="0" width="2" height="13" />
+    {/* Flag */}
     <path d="M11 0 Q14 3 11 6 L11 4 Q13 3 11 1 Z" />
+    {/* Round note head */}
     <ellipse cx="5" cy="14" rx="5" ry="3.5" />
+  </svg>
+);
+
+// Blob Note character
+const BlobNote = () => (
+  <svg width="80" height="80" viewBox="0 0 16 16" style={{ imageRendering: 'pixelated' }}>
+    <rect x="4" y="4" width="8" height="8" fill="#4FC3F7" />
+    <rect x="3" y="5" width="1" height="6" fill="#4FC3F7" />
+    <rect x="12" y="5" width="1" height="6" fill="#4FC3F7" />
+    <rect x="5" y="3" width="6" height="1" fill="#4FC3F7" />
+    <rect x="5" y="12" width="6" height="1" fill="#4FC3F7" />
+    <rect x="5" y="6" width="2" height="3" fill="white" />
+    <rect x="9" y="6" width="2" height="3" fill="white" />
+    <rect x="6" y="7" width="1" height="2" fill="#1a1a2e" />
+    <rect x="10" y="7" width="1" height="2" fill="#1a1a2e" />
+    <rect x="4" y="9" width="2" height="1" fill="#FF9999" />
+    <rect x="10" y="9" width="2" height="1" fill="#FF9999" />
   </svg>
 );
 
 // Note Buddy character - single note shape
 const NoteBuddy = () => (
   <svg width="80" height="80" viewBox="0 0 16 16" style={{ imageRendering: 'pixelated' }}>
+    {/* Stem */}
     <rect x="10" y="1" width="2" height="10" fill="#1a1a2e" />
+    {/* Flag */}
     <rect x="12" y="1" width="2" height="2" fill="#1a1a2e" />
     <rect x="12" y="3" width="1" height="2" fill="#1a1a2e" />
+    {/* Note head - oval with eyes */}
     <rect x="4" y="9" width="8" height="5" fill="#1a1a2e" />
     <rect x="3" y="10" width="1" height="3" fill="#1a1a2e" />
     <rect x="12" y="10" width="1" height="3" fill="#1a1a2e" />
+    {/* Eyes */}
     <rect x="5" y="10" width="2" height="2" fill="white" />
     <rect x="9" y="10" width="2" height="2" fill="white" />
     <rect x="6" y="11" width="1" height="1" fill="#1a1a2e" />
@@ -47,8 +70,7 @@ const NoteBuddy = () => (
   </svg>
 );
 
-export default function Onboarding() {
-  const router = useRouter();
+export default function LightDemo() {
   const [started, setStarted] = useState(false);
   const [stepIndex, setStepIndex] = useState(0);
   const [displayedText, setDisplayedText] = useState('');
@@ -57,6 +79,7 @@ export default function Onboarding() {
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [selectedOption, setSelectedOption] = useState(0);
   const [inputValue, setInputValue] = useState('');
+  const [character, setCharacter] = useState<'blob' | 'note'>('blob');
   const audioContextRef = useRef<AudioContext | null>(null);
 
   const steps: Step[] = [
@@ -71,7 +94,6 @@ export default function Onboarding() {
   ];
 
   const currentStep = steps[stepIndex];
-  const isLastStep = stepIndex === steps.length - 1;
 
   const playSound = () => {
     try {
@@ -131,23 +153,15 @@ export default function Onboarding() {
 
   const handleClick = () => {
     if (!started || isTyping) return;
+    // Only advance on click if it's a simple dialogue without special content
     if (currentStep.type === 'dialogue' && !currentStep.options) {
       nextStep();
     }
   };
 
-  const handleOptionClick = () => {
+  const handleOptionClick = (idx: number) => {
     playSound();
-    if (isLastStep) {
-      // Save onboarding data and go to dashboard
-      localStorage.setItem('onboarding-complete', 'true');
-      localStorage.setItem('onboarding-data', JSON.stringify({
-        musicTaste: selectedTags,
-      }));
-      router.push('/dashboard');
-    } else {
-      nextStep();
-    }
+    nextStep();
   };
 
   const handleOptionHover = (idx: number) => {
@@ -171,7 +185,7 @@ export default function Onboarding() {
     }
   };
 
-  const handleExperienceSelect = () => {
+  const handleExperienceSelect = (exp: string) => {
     playSound();
     nextStep();
   };
@@ -191,8 +205,8 @@ export default function Onboarding() {
       }}
       onClick={handleClick}
     >
-      {/* Background Music - stops on last step */}
-      {started && !isLastStep && (
+      {/* Background Music */}
+      {started && (
         <iframe
           className="hidden"
           src="https://www.youtube.com/embed/oTu4WcpB9Iw?autoplay=1&loop=1&playlist=oTu4WcpB9Iw"
@@ -202,36 +216,36 @@ export default function Onboarding() {
 
       {/* Start screen */}
       {!started && (
-        <div className="flex flex-col items-center">
-          {/* Note Buddy character */}
-          <div className="mb-6">
-            <NoteBuddy />
-          </div>
-
-          {/* Dialogue box with sound notice */}
-          <div
-            className="w-full max-w-xl border-4 border-gray-800 bg-white rounded-xl p-5 shadow-lg"
-            style={{ minHeight: '100px' }}
-          >
-            <p className="text-gray-900 text-2xl leading-relaxed">
-              This experience includes sound.
-            </p>
-          </div>
-
-          {/* Start option */}
-          <div className="w-full max-w-xl mt-3">
-            <div className="border-4 border-gray-800 bg-white rounded-xl p-4 shadow-lg">
-              <div
-                className="flex items-center p-2 cursor-pointer hover:bg-blue-50 rounded-lg transition-colors"
-                onClick={handleStart}
-              >
-                <span className="w-6 flex items-center justify-center">
-                  <NoteCursor />
-                </span>
-                <span className="text-gray-800 text-xl">Let's begin!</span>
-              </div>
+        <div className="text-center">
+          <p className="text-gray-600 text-xl mb-4">Choose your guide:</p>
+          <div className="flex justify-center gap-6 mb-8">
+            <div
+              onClick={() => setCharacter('blob')}
+              className={`p-4 rounded-xl cursor-pointer border-4 transition-all ${
+                character === 'blob' ? 'border-blue-500 bg-blue-50 scale-110' : 'border-gray-300 bg-white'
+              }`}
+            >
+              <BlobNote />
+              <p className="text-sm mt-2 text-gray-600">Blob Note</p>
+            </div>
+            <div
+              onClick={() => setCharacter('note')}
+              className={`p-4 rounded-xl cursor-pointer border-4 transition-all ${
+                character === 'note' ? 'border-blue-500 bg-blue-50 scale-110' : 'border-gray-300 bg-white'
+              }`}
+            >
+              <NoteBuddy />
+              <p className="text-sm mt-2 text-gray-600">Note Buddy</p>
             </div>
           </div>
+          <button
+            onClick={handleStart}
+            className="px-8 py-4 bg-blue-500 text-white text-2xl rounded-xl hover:bg-blue-600 transition-colors shadow-lg"
+            style={{ fontFamily: "'VT323', monospace" }}
+          >
+            Start
+          </button>
+          <p className="mt-4 text-gray-500 text-lg">Click to begin your journey</p>
         </div>
       )}
 
@@ -240,7 +254,7 @@ export default function Onboarding() {
         <>
           {/* Maven character */}
           <div className="mb-6">
-            <NoteBuddy />
+            {character === 'blob' ? <BlobNote /> : <NoteBuddy />}
           </div>
 
           {/* Dialogue box */}
@@ -267,7 +281,7 @@ export default function Onboarding() {
                         key={opt}
                         className="flex items-center p-2 cursor-pointer hover:bg-blue-50 rounded-lg transition-colors"
                         onMouseEnter={() => handleOptionHover(idx)}
-                        onClick={() => handleOptionClick()}
+                        onClick={() => handleOptionClick(idx)}
                       >
                         <span className="w-6 flex items-center justify-center">
                           {selectedOption === idx ? <NoteCursor /> : ''}
@@ -320,7 +334,7 @@ export default function Onboarding() {
                         key={exp}
                         className="flex items-center p-3 cursor-pointer hover:bg-blue-50 rounded-lg transition-colors"
                         onMouseEnter={() => handleOptionHover(idx)}
-                        onClick={() => handleExperienceSelect()}
+                        onClick={() => handleExperienceSelect(exp)}
                       >
                         <span className="w-6 flex items-center justify-center">
                           {selectedOption === idx ? <NoteCursor /> : ''}
@@ -406,6 +420,10 @@ export default function Onboarding() {
           )}
         </>
       )}
+
+      <div className="fixed top-4 right-4 text-gray-400 text-xs">
+        DEMO
+      </div>
     </div>
   );
 }

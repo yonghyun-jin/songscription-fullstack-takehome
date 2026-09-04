@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { TRPCProvider } from "@/lib/trpc-provider";
 
 export const metadata: Metadata = {
-  title: "MIDI Library",
-  description: "Songscription fullstack take-home",
+  title: "Songscription",
+  description: "Learn piano your way",
 };
 
 export default function RootLayout({
@@ -13,7 +14,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="antialiased">{children}</body>
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet" />
+      </head>
+      <body className="antialiased">
+        <TRPCProvider>{children}</TRPCProvider>
+      </body>
     </html>
   );
 }
