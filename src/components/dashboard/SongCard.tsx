@@ -188,29 +188,25 @@ export function SongCard({
                 <span>~{song.practiceMinutes || 0} min to learn</span>
               </div>
 
-              {/* Difficulty tag */}
-              {song.difficulty && (
-                <span className={`inline-block px-2 py-0.5 rounded text-xs font-medium capitalize mb-2
-                  ${song.difficulty === 'beginner' ? 'bg-green-100 text-green-700' : ''}
-                  ${song.difficulty === 'intermediate' ? 'bg-yellow-100 text-yellow-700' : ''}
-                  ${song.difficulty === 'advanced' ? 'bg-red-100 text-red-700' : ''}`}>
-                  {song.difficulty}
-                </span>
-              )}
-
-              {/* Friendly tags */}
-              {tags.length > 0 && (
-                <div className="flex flex-wrap gap-1 mt-2">
-                  {tags.slice(0, 3).map((tag, i) => (
-                    <span
-                      key={i}
-                      className="inline-block px-2 py-0.5 bg-blue-50 text-blue-600 rounded text-xs"
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-              )}
+              {/* Difficulty + Tags row */}
+              <div className="flex flex-wrap gap-1">
+                {song.difficulty && (
+                  <span className={`inline-block px-2 py-0.5 rounded text-xs font-medium capitalize
+                    ${song.difficulty === 'beginner' ? 'bg-green-100 text-green-700' : ''}
+                    ${song.difficulty === 'intermediate' ? 'bg-yellow-100 text-yellow-700' : ''}
+                    ${song.difficulty === 'advanced' ? 'bg-red-100 text-red-700' : ''}`}>
+                    {song.difficulty}
+                  </span>
+                )}
+                {tags.slice(0, 3).map((tag, i) => (
+                  <span
+                    key={i}
+                    className="inline-block px-2 py-0.5 bg-blue-50 text-blue-600 rounded text-xs"
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
             </div>
 
             {/* Bottom section: Progress */}
