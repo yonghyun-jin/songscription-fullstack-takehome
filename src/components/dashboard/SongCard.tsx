@@ -50,10 +50,12 @@ function MusicBar({ index, isAnimating }: { index: number; isAnimating: boolean 
 
   return (
     <div
-      className={`w-2 bg-blue-500/70 rounded-t transition-all ${isAnimating ? 'animate-music-bar' : ''}`}
+      className="w-2 bg-blue-500/70 rounded-t"
       style={{
         height: `${baseHeight}%`,
+        animation: isAnimating ? `musicBar 0.5s ease-in-out infinite` : 'none',
         animationDelay: `${index * 0.1}s`,
+        transformOrigin: 'bottom',
       }}
     />
   );
@@ -89,11 +91,10 @@ export function SongCard({
 
   return (
     <>
-      {/* Dark overlay when hovered */}
+      {/* Dark overlay when hovered - pointer-events-none so it doesn't capture mouse */}
       {isHovered && (
         <div
-          className="fixed inset-0 bg-black/40 z-40 transition-opacity duration-300"
-          onMouseEnter={() => setIsHovered(false)}
+          className="fixed inset-0 bg-black/40 z-40 pointer-events-none transition-opacity duration-300"
         />
       )}
 
@@ -229,22 +230,6 @@ export function SongCard({
           </div>
         )}
       </div>
-
-      {/* CSS for music bar animation */}
-      <style jsx>{`
-        @keyframes musicBar {
-          0%, 100% {
-            transform: scaleY(1);
-          }
-          50% {
-            transform: scaleY(0.5);
-          }
-        }
-        .animate-music-bar {
-          animation: musicBar 0.5s ease-in-out infinite;
-          transform-origin: bottom;
-        }
-      `}</style>
     </>
   );
 }

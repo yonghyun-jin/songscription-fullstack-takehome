@@ -11,7 +11,7 @@
 - Song card info priorities differ by user type: beginners care more about popularity/social proof/hope; experienced pianists care more about difficulty/technique
 - Never use em dashes (—) in UI copy or dialogue; use periods, commas, or ellipses instead
 - Selection options should be casual/human-sounding (e.g., "I'm just starting out!" not "A few months"), max 3 choices to keep decisions simple
-- **Dashboard theme**: ~~Dark zinc~~ **SUPERSEDED**: Now matches onboarding theme — light blue gradient, VT323 pixel font, white cards with `border-4 border-gray-800 rounded-xl`, blue accents. Unified visual language across app.
+- **Dashboard theme**: Light blue gradient with dot texture (`radial-gradient` pattern), white cards with **thin borders** (`border border-gray-300`), **thick borders only on Sidebar** (`border-r-4 border-gray-800`). Normal font (not pixel VT323). No shadows on content cards.
 - **Dashboard icons**: SVG components only, never emojis. All icons are inline SVG (HomeIcon, ClockIcon, HeartIcon, etc.)
 - **Dashboard copy language**: English only, no Korean text in dashboard UI
 - **Implementation plan is source of truth for UI copy**: When screenshots conflict with `/docs/DASHBOARD_IMPLEMENTATION_PLAN.md`, the plan document wins for copywriting (e.g., "Continue Playing" not "Today's Pick")
@@ -56,7 +56,7 @@
 - **No Korean in dashboard**: Original plan had Korean labels (난이도, 악기, etc.) but user reversed this — dashboard is now English-only
 - **"Today's Pick" vs "Continue Playing"**: A screenshot showed "Today's Pick" but the implementation plan (`docs/DASHBOARD_IMPLEMENTATION_PLAN.md`) specifies "Continue Playing" as the hero section header. **Plan document wins over screenshots for copy.** This is a key gotcha: always verify UI copy against the plan, not visual references.
 - **Netflix-style hover**: SongCard uses internal `useState` for hover state. Hover overlay must be **absolute positioned** (not in-flow) to avoid pushing rows down and creating spacing issues.
-- **Sidebar structure**: Logo at top → "Add transcription" button → Nav items with counts → Profile fixed at bottom with settings icon
+- **Sidebar structure**: Logo at top → "Upload song" button (white bg, dark border) → Nav items with counts → Profile fixed at bottom with settings icon
 
 ## 2026-09-03 — SongCard Netflix hover: absolute positioning and sizing
 - **In-flow hover breaks layout**: Original implementation had hover panel in document flow, which pushed the next row down and created large gaps between sections. User caught this immediately.
@@ -71,3 +71,10 @@
 - **Hover info changed**: Now shows (1) Duration with ClockIcon, (2) Learning time (practiceMinutes) with BookIcon, (3) Difficulty tag, (4) Progress bar. BPM removed — user cares more about learning progress than tempo.
 - **YouTube audio on hover**: Added `youtubeId` field to songs schema. Hidden iframe with `enablejsapi=1`, controlled via `postMessage` to play/pause on hover. Requires user interaction first (browser autoplay policy).
 - **Horizontal panel sizing**: 200px wide panel appears to the right of 280px card using `flex` layout on the outer container.
+
+## 2026-09-04 — SongCard hover: animated bars, dark overlay, friendly tags
+- **Button rename rationale**: "Upload song" clearer than "Add transcription" (user doesn't think in transcription terms). "Continue practicing" more action-oriented than "Open practice view". Upload button uses reversed colors (white bg) to stand out as secondary CTA; primary CTA is blue "Continue practicing".
+- **Dark overlay for spotlight**: `fixed inset-0 bg-black/40 z-40` overlay renders when card is hovered, dimming everything else. Card gets `z-50` and `scale-105` to pop above overlay.
+- **Animated music bars**: CSS keyframes via styled-jsx (`<style jsx>`). Each bar has staggered `animationDelay` based on index for wave effect. Animation uses `scaleY` transform from bottom origin.
+- **Tags schema**: Added `tags TEXT` column storing comma-separated values (e.g., "Good for beginners,Simple melody,Fun to play"). Parsed to array on display with `.split(',').map(t => t.trim())`. Shown as light blue chips below difficulty badge.
+- **Schema change ripple**: Adding `tags` field required updating 4 files: schema.ts, db/index.ts SQL, songs.test.ts SQL, and all component test mock data (SongCard.test.tsx, ContinuePlaying.test.tsx). Type checker catches missing fields immediately.
