@@ -12,6 +12,7 @@ describe('ContinuePlaying', () => {
     fileName: 'fur-elise.mid',
     youtubeId: 'q9bU12gXUyM',
     difficulty: 'intermediate',
+    tags: 'Famous classical,Romantic melody,Great for practice',
     bpm: 72,
     durationSeconds: 204,
     progressPercent: 45,
@@ -51,7 +52,7 @@ describe('ContinuePlaying', () => {
   it('calls onContinue when button clicked', () => {
     const onContinue = vi.fn();
     render(<ContinuePlaying song={mockSong} onContinue={onContinue} />);
-    fireEvent.click(screen.getByRole('button', { name: /Open practice view/ }));
+    fireEvent.click(screen.getByRole('button', { name: /Continue practicing/ }));
     expect(onContinue).toHaveBeenCalled();
   });
 

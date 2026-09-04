@@ -36,13 +36,13 @@ describe('Sidebar', () => {
 
   it('renders upload button with correct text', () => {
     render(<Sidebar user={mockUser} />);
-    expect(screen.getByText('Add transcription')).toBeInTheDocument();
+    expect(screen.getByText('Upload song')).toBeInTheDocument();
   });
 
   it('calls onUpload when upload button clicked', () => {
     const onUpload = vi.fn();
     render(<Sidebar user={mockUser} onUpload={onUpload} />);
-    fireEvent.click(screen.getByText('Add transcription'));
+    fireEvent.click(screen.getByText('Upload song'));
     expect(onUpload).toHaveBeenCalled();
   });
 
@@ -61,7 +61,7 @@ describe('Sidebar', () => {
   it('renders settings button', () => {
     render(<Sidebar user={mockUser} />);
     // Settings is an SVG icon in a button - check for the button
-    const settingsButton = document.querySelector('button[class*="text-zinc-500"]');
+    const settingsButton = document.querySelector('button[class*="text-gray-500"]');
     expect(settingsButton).toBeInTheDocument();
   });
 });

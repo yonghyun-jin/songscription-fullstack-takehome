@@ -38,7 +38,16 @@ export default function DashboardLayout({
   };
 
   return (
-    <div className="min-h-screen bg-zinc-950">
+    <div
+      className="min-h-screen"
+      style={{
+        background: `
+          radial-gradient(circle at 1px 1px, rgba(0,0,0,0.03) 1px, transparent 0),
+          linear-gradient(180deg, #f0f7fb 0%, #e4eff5 100%)
+        `,
+        backgroundSize: '24px 24px, 100% 100%',
+      }}
+    >
       <Sidebar
         user={DEMO_USER}
         onUpload={() => setIsUploadOpen(true)}

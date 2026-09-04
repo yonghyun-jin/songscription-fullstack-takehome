@@ -20,7 +20,7 @@ export function SongRow({
 
   return (
     <div className="mb-8 relative">
-      <h2 className="text-xl font-bold text-white mb-3">
+      <h2 className="text-2xl font-bold text-gray-900 mb-4">
         {title}
       </h2>
 

@@ -67,22 +67,22 @@ export function Sidebar({ user, onUpload, songCounts }: SidebarProps) {
   ];
 
   return (
-    <aside className="w-64 h-screen bg-zinc-950 border-r border-zinc-800 flex flex-col fixed left-0 top-0">
+    <aside className="w-64 h-screen bg-white border-r-4 border-gray-800 flex flex-col fixed left-0 top-0">
       {/* Logo */}
       <div className="p-4 flex items-center gap-3">
         <SongscriptionLogo />
-        <span className="text-white font-semibold text-lg">Songscription</span>
+        <span className="text-gray-900 font-semibold text-xl">Songscription</span>
       </div>
 
       {/* Upload Button */}
       <div className="px-4 mb-4">
         <button
           onClick={onUpload}
-          className="w-full bg-transparent border border-zinc-700 text-white py-2.5 px-4 rounded-lg font-medium
-                     hover:bg-zinc-800 transition-colors flex items-center justify-center gap-2"
+          className="w-full bg-white border-2 border-gray-800 text-gray-800 py-2.5 px-4 rounded-xl text-lg
+                     hover:bg-gray-100 transition-colors flex items-center justify-center gap-2"
         >
           <UploadIcon />
-          Add transcription
+          Upload song
         </button>
       </div>
 
@@ -96,10 +96,10 @@ export function Sidebar({ user, onUpload, songCounts }: SidebarProps) {
               <li key={item.href}>
                 <Link
                   href={item.href}
-                  className={`flex items-center justify-between px-3 py-2.5 rounded-lg transition-colors
+                  className={`flex items-center justify-between px-3 py-2.5 rounded-xl transition-colors text-lg
                     ${isActive
-                      ? 'bg-zinc-800 text-white'
-                      : 'text-zinc-400 hover:bg-zinc-900 hover:text-white'
+                      ? 'bg-blue-100 text-blue-700 border-2 border-blue-500'
+                      : 'text-gray-600 hover:bg-blue-50 hover:text-gray-900'
                     }`}
                 >
                   <div className="flex items-center gap-3">
@@ -107,7 +107,7 @@ export function Sidebar({ user, onUpload, songCounts }: SidebarProps) {
                     <span className="font-medium">{item.label}</span>
                   </div>
                   {item.count !== undefined && (
-                    <span className="text-sm text-zinc-500">{item.count}</span>
+                    <span className="text-sm text-gray-400">{item.count}</span>
                   )}
                 </Link>
               </li>
@@ -117,18 +117,18 @@ export function Sidebar({ user, onUpload, songCounts }: SidebarProps) {
       </nav>
 
       {/* Profile - Fixed Bottom */}
-      <div className="p-4 border-t border-zinc-800">
+      <div className="p-4 border-t-4 border-gray-800">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-amber-500 rounded-full flex items-center justify-center text-black text-sm font-bold">
+            <div className="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center text-white text-sm font-bold border-2 border-gray-800">
               {user.initials}
             </div>
             <div>
-              <p className="text-white font-medium text-sm">{user.name}</p>
-              <p className="text-amber-500 text-xs">{user.weeklyMinutes} min this week</p>
+              <p className="text-gray-900 font-medium text-lg">{user.name}</p>
+              <p className="text-blue-600 text-sm">{user.weeklyMinutes} min this week</p>
             </div>
           </div>
-          <button className="text-zinc-500 hover:text-white transition-colors">
+          <button className="text-gray-500 hover:text-gray-900 transition-colors">
             <SettingsIcon />
           </button>
         </div>

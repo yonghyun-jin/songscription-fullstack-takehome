@@ -10,6 +10,7 @@ export const songs = sqliteTable('songs', {
   bpm: integer('bpm'),
   durationSeconds: integer('duration_seconds'),
   difficulty: text('difficulty'), // 'beginner' | 'intermediate' | 'advanced'
+  tags: text('tags'), // Comma-separated friendly tags like "Good for beginners,Simple melody"
   isFavorite: integer('is_favorite', { mode: 'boolean' }).default(false),
   lastPracticedAt: text('last_practiced_at'),
   progressPercent: integer('progress_percent').default(0),

@@ -139,6 +139,12 @@ body {
   51%, 100% { opacity: 0; }
 }
 
+/* Music bar animation for SongCard hover */
+@keyframes musicBar {
+  0%, 100% { transform: scaleY(1); }
+  50% { transform: scaleY(0.5); }
+}
+
 /* Fade transitions */
 .fade-enter {
   opacity: 0;
