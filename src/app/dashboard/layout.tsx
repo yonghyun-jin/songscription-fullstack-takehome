@@ -41,7 +41,6 @@ export default function DashboardLayout({
     <div
       className="min-h-screen"
       style={{
-        fontFamily: "'VT323', 'Courier New', monospace",
         background: 'linear-gradient(180deg, #e8f4fc 0%, #d0e8f5 100%)',
       }}
     >

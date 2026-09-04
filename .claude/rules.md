@@ -11,7 +11,7 @@
 - Song card info priorities differ by user type: beginners care more about popularity/social proof/hope; experienced pianists care more about difficulty/technique
 - Never use em dashes (—) in UI copy or dialogue; use periods, commas, or ellipses instead
 - Selection options should be casual/human-sounding (e.g., "I'm just starting out!" not "A few months"), max 3 choices to keep decisions simple
-- **Dashboard theme**: Dark zinc (zinc-950/900 backgrounds, white text) — NOT the Wii light theme from onboarding. Netflix-inspired.
+- **Dashboard theme**: ~~Dark zinc~~ **SUPERSEDED**: Now matches onboarding theme — light blue gradient, VT323 pixel font, white cards with `border-4 border-gray-800 rounded-xl`, blue accents. Unified visual language across app.
 - **Dashboard icons**: SVG components only, never emojis. All icons are inline SVG (HomeIcon, ClockIcon, HeartIcon, etc.)
 - **Dashboard copy language**: English only, no Korean text in dashboard UI
 - **Implementation plan is source of truth for UI copy**: When screenshots conflict with `/docs/DASHBOARD_IMPLEMENTATION_PLAN.md`, the plan document wins for copywriting (e.g., "Continue Playing" not "Today's Pick")
