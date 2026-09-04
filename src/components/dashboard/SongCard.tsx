@@ -44,6 +44,21 @@ const BookIcon = () => (
   </svg>
 );
 
+// Animated music bar component
+function MusicBar({ index, isAnimating }: { index: number; isAnimating: boolean }) {
+  const baseHeight = 20 + (index * 7) % 60;
+
+  return (
+    <div
+      className={`w-2 bg-blue-500/70 rounded-t transition-all ${isAnimating ? 'animate-music-bar' : ''}`}
+      style={{
+        height: `${baseHeight}%`,
+        animationDelay: `${index * 0.1}s`,
+      }}
+    />
+  );
+}
+
 export function SongCard({
   song,
   onClick,
@@ -52,6 +67,9 @@ export function SongCard({
 }: SongCardProps) {
   const [isHovered, setIsHovered] = useState(false);
   const iframeRef = useRef<HTMLIFrameElement>(null);
+
+  // Parse tags from comma-separated string
+  const tags = song.tags ? song.tags.split(',').map(t => t.trim()) : [];
 
   // Control YouTube playback on hover
   useEffect(() => {
@@ -70,127 +88,163 @@ export function SongCard({
   }, [isHovered, song.youtubeId]);
 
   return (
-    <div
-      className={`relative cursor-pointer flex-shrink-0 transition-all duration-300 flex
-                  ${isHovered ? 'z-50' : 'z-10'}`}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-    >
-      {/* Hidden YouTube player for audio preview */}
-      {song.youtubeId && (
-        <iframe
-          ref={iframeRef}
-          className="absolute w-0 h-0 opacity-0 pointer-events-none"
-          src={`https://www.youtube.com/embed/${song.youtubeId}?enablejsapi=1&autoplay=0&controls=0`}
-          allow="autoplay"
-          title="Audio preview"
+    <>
+      {/* Dark overlay when hovered */}
+      {isHovered && (
+        <div
+          className="fixed inset-0 bg-black/40 z-40 transition-opacity duration-300"
+          onMouseEnter={() => setIsHovered(false)}
         />
       )}
 
-      {/* Main Card */}
       <div
-        className={`relative transition-all duration-300 overflow-hidden border border-gray-300 bg-white
-                    ${isHovered ? 'rounded-l-xl' : 'rounded-xl'}`}
-        style={{ width: '280px' }}
-        onClick={() => onClick?.(song.id)}
+        className={`relative cursor-pointer flex-shrink-0 transition-all duration-300 flex
+                    ${isHovered ? 'z-50 scale-105' : 'z-10'}`}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
       >
-        {/* Thumbnail */}
-        <div className="aspect-[16/10] bg-gradient-to-br from-blue-100 to-blue-200 relative">
-          {/* Piano roll visualization */}
-          <div className="absolute inset-0">
-            <div className="h-full flex items-end justify-around px-4 pb-4">
-              {[...Array(16)].map((_, i) => (
-                <div
-                  key={i}
-                  className="w-2 bg-blue-500/70 rounded-t"
-                  style={{ height: `${20 + Math.random() * 60}%` }}
-                />
-              ))}
-            </div>
-          </div>
+        {/* Hidden YouTube player for audio preview */}
+        {song.youtubeId && (
+          <iframe
+            ref={iframeRef}
+            className="absolute w-0 h-0 opacity-0 pointer-events-none"
+            src={`https://www.youtube.com/embed/${song.youtubeId}?enablejsapi=1&autoplay=0&controls=0`}
+            allow="autoplay"
+            title="Audio preview"
+          />
+        )}
 
-          {/* Progress bar on thumbnail */}
-          {showProgress && song.progressPercent !== null && song.progressPercent > 0 && (
-            <div className="absolute bottom-0 left-0 right-0 h-1.5 bg-gray-300">
-              <div
-                className="h-full bg-blue-600"
-                style={{ width: `${song.progressPercent}%` }}
-              />
-            </div>
-          )}
-        </div>
-
-        {/* Title bar */}
-        <div className="p-3 bg-white border-t border-gray-100">
-          <h3 className="font-semibold text-gray-900 text-base truncate">{song.title}</h3>
-          <p className="text-sm text-gray-500 truncate">{song.artist || 'Unknown'}</p>
-        </div>
-      </div>
-
-      {/* Hover Panel - expands horizontally to the right */}
-      {isHovered && (
+        {/* Main Card */}
         <div
-          className="bg-white border border-l-0 border-gray-300 rounded-r-xl flex flex-col justify-between self-stretch"
-          style={{ width: '200px' }}
+          className={`relative transition-all duration-300 overflow-hidden border border-gray-300 bg-white
+                      ${isHovered ? 'rounded-l-xl shadow-xl' : 'rounded-xl'}`}
+          style={{ width: '280px' }}
+          onClick={() => onClick?.(song.id)}
         >
-          {/* Top section: Action buttons */}
-          <div className="p-4 flex items-center gap-2">
-            <button className="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center text-white hover:bg-blue-600 transition-colors">
-              <PlayIcon />
-            </button>
-            <button
-              onClick={(e) => { e.stopPropagation(); onFavorite?.(song.id); }}
-              className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors
-                ${song.isFavorite
-                  ? 'bg-red-500 text-white'
-                  : 'bg-gray-100 text-gray-600 hover:bg-red-50'}`}
-              aria-label="Toggle favorite"
-            >
-              <HeartIcon filled={song.isFavorite || false} />
-            </button>
-          </div>
-
-          {/* Middle section: Info */}
-          <div className="px-4 flex-1">
-            {/* Duration */}
-            <div className="flex items-center gap-2 text-sm text-gray-600 mb-2">
-              <ClockIcon />
-              <span>Duration: {formatDuration(song.durationSeconds)}</span>
+          {/* Thumbnail */}
+          <div className="aspect-[16/10] bg-gradient-to-br from-blue-100 to-blue-200 relative">
+            {/* Piano roll visualization with animation */}
+            <div className="absolute inset-0">
+              <div className="h-full flex items-end justify-around px-4 pb-4">
+                {[...Array(16)].map((_, i) => (
+                  <MusicBar key={i} index={i} isAnimating={isHovered} />
+                ))}
+              </div>
             </div>
 
-            {/* Expected learning time */}
-            <div className="flex items-center gap-2 text-sm text-gray-600 mb-3">
-              <BookIcon />
-              <span>~{song.practiceMinutes || 0} min to learn</span>
-            </div>
-
-            {/* Tag (difficulty) */}
-            {song.difficulty && (
-              <span className={`inline-block px-2 py-0.5 rounded text-xs font-medium capitalize
-                ${song.difficulty === 'beginner' ? 'bg-green-100 text-green-700' : ''}
-                ${song.difficulty === 'intermediate' ? 'bg-yellow-100 text-yellow-700' : ''}
-                ${song.difficulty === 'advanced' ? 'bg-red-100 text-red-700' : ''}`}>
-                {song.difficulty}
-              </span>
+            {/* Progress bar on thumbnail */}
+            {showProgress && song.progressPercent !== null && song.progressPercent > 0 && (
+              <div className="absolute bottom-0 left-0 right-0 h-1.5 bg-gray-300">
+                <div
+                  className="h-full bg-blue-600"
+                  style={{ width: `${song.progressPercent}%` }}
+                />
+              </div>
             )}
           </div>
 
-          {/* Bottom section: Progress */}
-          {song.progressPercent !== null && song.progressPercent > 0 && (
-            <div className="p-4 pt-0">
-              <div className="flex items-center gap-2">
-                <div className="flex-1 h-1.5 bg-gray-200 rounded-full overflow-hidden">
-                  <div
-                    className="h-full bg-blue-500 rounded-full"
-                    style={{ width: `${song.progressPercent}%` }}
-                  />
-                </div>
-                <span className="text-xs text-blue-600 font-medium">{song.progressPercent}%</span>
-              </div>
-            </div>
-          )}
+          {/* Title bar */}
+          <div className="p-3 bg-white border-t border-gray-100">
+            <h3 className="font-semibold text-gray-900 text-base truncate">{song.title}</h3>
+            <p className="text-sm text-gray-500 truncate">{song.artist || 'Unknown'}</p>
+          </div>
         </div>
-      )}
-    </div>
+
+        {/* Hover Panel - expands horizontally to the right */}
+        {isHovered && (
+          <div
+            className="bg-white border border-l-0 border-gray-300 rounded-r-xl flex flex-col justify-between self-stretch shadow-xl"
+            style={{ width: '220px' }}
+          >
+            {/* Top section: Action buttons */}
+            <div className="p-4 flex items-center gap-2">
+              <button className="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center text-white hover:bg-blue-600 transition-colors">
+                <PlayIcon />
+              </button>
+              <button
+                onClick={(e) => { e.stopPropagation(); onFavorite?.(song.id); }}
+                className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors
+                  ${song.isFavorite
+                    ? 'bg-red-500 text-white'
+                    : 'bg-gray-100 text-gray-600 hover:bg-red-50'}`}
+                aria-label="Toggle favorite"
+              >
+                <HeartIcon filled={song.isFavorite || false} />
+              </button>
+            </div>
+
+            {/* Middle section: Info */}
+            <div className="px-4 flex-1">
+              {/* Duration */}
+              <div className="flex items-center gap-2 text-sm text-gray-600 mb-2">
+                <ClockIcon />
+                <span>Duration: {formatDuration(song.durationSeconds)}</span>
+              </div>
+
+              {/* Expected learning time */}
+              <div className="flex items-center gap-2 text-sm text-gray-600 mb-3">
+                <BookIcon />
+                <span>~{song.practiceMinutes || 0} min to learn</span>
+              </div>
+
+              {/* Difficulty tag */}
+              {song.difficulty && (
+                <span className={`inline-block px-2 py-0.5 rounded text-xs font-medium capitalize mb-2
+                  ${song.difficulty === 'beginner' ? 'bg-green-100 text-green-700' : ''}
+                  ${song.difficulty === 'intermediate' ? 'bg-yellow-100 text-yellow-700' : ''}
+                  ${song.difficulty === 'advanced' ? 'bg-red-100 text-red-700' : ''}`}>
+                  {song.difficulty}
+                </span>
+              )}
+
+              {/* Friendly tags */}
+              {tags.length > 0 && (
+                <div className="flex flex-wrap gap-1 mt-2">
+                  {tags.slice(0, 3).map((tag, i) => (
+                    <span
+                      key={i}
+                      className="inline-block px-2 py-0.5 bg-blue-50 text-blue-600 rounded text-xs"
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {/* Bottom section: Progress */}
+            {song.progressPercent !== null && song.progressPercent > 0 && (
+              <div className="p-4 pt-0">
+                <div className="flex items-center gap-2">
+                  <div className="flex-1 h-1.5 bg-gray-200 rounded-full overflow-hidden">
+                    <div
+                      className="h-full bg-blue-500 rounded-full"
+                      style={{ width: `${song.progressPercent}%` }}
+                    />
+                  </div>
+                  <span className="text-xs text-blue-600 font-medium">{song.progressPercent}%</span>
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+
+      {/* CSS for music bar animation */}
+      <style jsx>{`
+        @keyframes musicBar {
+          0%, 100% {
+            transform: scaleY(1);
+          }
+          50% {
+            transform: scaleY(0.5);
+          }
+        }
+        .animate-music-bar {
+          animation: musicBar 0.5s ease-in-out infinite;
+          transform-origin: bottom;
+        }
+      `}</style>
+    </>
   );
 }

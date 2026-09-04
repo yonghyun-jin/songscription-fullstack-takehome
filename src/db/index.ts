@@ -18,6 +18,7 @@ sqlite.exec(`
     bpm INTEGER,
     duration_seconds INTEGER,
     difficulty TEXT,
+    tags TEXT,
     is_favorite INTEGER DEFAULT 0,
     last_practiced_at TEXT,
     progress_percent INTEGER DEFAULT 0,

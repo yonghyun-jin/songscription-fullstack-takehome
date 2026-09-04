@@ -12,6 +12,7 @@ describe('ContinuePlaying', () => {
     fileName: 'fur-elise.mid',
     youtubeId: 'q9bU12gXUyM',
     difficulty: 'intermediate',
+    tags: 'Famous classical,Romantic melody,Great for practice',
     bpm: 72,
     durationSeconds: 204,
     progressPercent: 45,

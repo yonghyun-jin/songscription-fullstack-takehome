@@ -13,6 +13,7 @@ const seedSongs = [
     bpm: 72,
     durationSeconds: 204,
     difficulty: 'intermediate',
+    tags: 'Famous classical,Romantic melody,Great for practice',
     isFavorite: true,
     lastPracticedAt: new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString(), // 2 hours ago
     progressPercent: 45,
@@ -29,6 +30,7 @@ const seedSongs = [
     bpm: 60,
     durationSeconds: 45,
     difficulty: 'beginner',
+    tags: 'Perfect for beginners,Finger exercise,Quick to learn',
     isFavorite: false,
     lastPracticedAt: new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString(), // 1 day ago
     progressPercent: 100,
@@ -45,6 +47,7 @@ const seedSongs = [
     bpm: 90,
     durationSeconds: 90,
     difficulty: 'beginner',
+    tags: 'Everyone knows it,Great first song,Fun melody',
     isFavorite: false,
     lastPracticedAt: null,
     progressPercent: 0,

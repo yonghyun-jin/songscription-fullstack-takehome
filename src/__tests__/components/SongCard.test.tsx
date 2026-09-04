@@ -12,6 +12,7 @@ describe('SongCard', () => {
     fileName: 'test.mid',
     youtubeId: 'q9bU12gXUyM',
     difficulty: 'beginner',
+    tags: 'Good for beginners,Simple melody,Fun to play',
     bpm: 120,
     durationSeconds: 180,
     progressPercent: 50,
